@@ -4,15 +4,15 @@
 PS1='$(if [[ "$PWD" == /workspaces ]]; then  
           echo "workspaces\$ "  # Show workspaces$ when in /workspaces  
       elif [[ "$PWD" == /workspaces/* ]]; then  
-          # Remove the base /workspaces/ part to get relative path  
+          # Remove the base /workspaces/ part to get the relative path  
           REL_PATH="${PWD#/workspaces/}"  
           
-          # Check if REL_PATH is empty (in the repository)  
-          if [[ "$REL_PATH" == "" ]]; then  
-              echo "\$ "  # Show just $ when directly in /workspaces/repositoryname  
+          # If in the base repository directory, show just $  
+          if [[ "$REL_PATH" == *"/"* ]]; then  
+              # Show the path relative to repositoryname  
+              echo "${REL_PATH#*/}\$ "  # Remove the first directory  
           else  
-              # Show the relative path followed by $  
-              echo "$REL_PATH\$ "  
+              echo "\$ "  # Show just $ when directly in /workspaces/repositoryname  
           fi  
       else  
           # Default case for other directories outside /workspaces  
