@@ -1,14 +1,22 @@
 #!/bin/bash  
 
-# Customize the Bash prompt to show the specified directory feedback  
-PS1='$(if [[ "$PWD" == /workspace ]]; then  
-          echo "/workspace\$ "  # Show /workspace$ when in /workspace  
-      elif [[ "$PWD" == /workspace/* ]]; then  
-          # In a subdirectory of workspace, show just $  
-          echo "\$ "  
+# Customize the Bash prompt to reflect the desired directory structure  
+PS1='$(if [[ "$PWD" == /workspaces ]]; then  
+          echo "workspaces\$ "  # Show workspaces$ when in /workspaces  
+      elif [[ "$PWD" == /workspaces/* ]]; then  
+          # Remove the base /workspaces/ part to get relative path  
+          REL_PATH="${PWD#/workspaces/}"  
+          
+          # Check if REL_PATH is empty (in the repository)  
+          if [[ "$REL_PATH" == "" ]]; then  
+              echo "\$ "  # Show just $ when directly in /workspaces/repositoryname  
+          else  
+              # Show the relative path followed by $  
+              echo "$REL_PATH\$ "  
+          fi  
       else  
-          # For any other directory, show the last folder name followed by $  
-          echo "${PWD##*/}\$ "  
+          # Default case for other directories outside /workspaces  
+          echo "\w\$ "  
       fi)'  
 
 # Export the PS1 variable for the current session  
