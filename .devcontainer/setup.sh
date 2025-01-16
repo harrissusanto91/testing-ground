@@ -1,24 +1,24 @@
 #!/bin/bash  
 
-# Customize the Bash prompt to show the current directory after 'workspaces'.  
-PS1='$(if [[ "$PWD" == /workspaces/* ]]; then  
-          # Get the relative path after /workspaces/  
-          REL_PATH="${PWD#/workspaces/}"  
-          # If REL_PATH is empty, we are at /workspaces, so just show $  
-          if [[ -z "$REL_PATH" ]]; then  
-              echo "\$ "  
+# Customize the Bash prompt to show the directory structure as you specified  
+PS1='$(if [[ "$PWD" == /workspace/* ]]; then  
+          # Check if we are directly in /workspace  
+          if [[ "$PWD" == /workspace ]]; then  
+              echo "/workspace\$ "  # Show /workspace$ when in /workspace  
           else  
-              # Otherwise, display the last directory in REL_PATH  
-              LAST_DIR=${REL_PATH%%/*}  # Get everything before the first '/'  
-              echo "$LAST_DIR\$ "  
+              # Show the last part of the path for any other subdirectory  
+              echo "${PWD##*/}\$ "  # Get the last directory name and add $  
           fi  
       else  
-          # Show the full path for other directories  
-          echo "$PWD\$ "  
+          # For anything outside of /workspace, show the full path (optional)  
+          echo "\w\$ "  
       fi)'  
 
-# Add the customized PS1 to .bashrc for persistence  
+# Export the PS1 variable for the current session  
+export PS1  
+
+# Append the export statement to .bashrc for future terminal sessions  
 echo "export PS1='$PS1'" >> ~/.bashrc  
 
-# Optionally, source the .bashrc to apply changes immediately  
+# Source .bashrc to apply changes immediately  
 source ~/.bashrc
