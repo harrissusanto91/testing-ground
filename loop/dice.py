@@ -20,5 +20,14 @@ while score < 50:
 
 # Once the loop ends, the player has reached or exceeded a score of 50  
 print("Congratulations, you reached or exceeded a score of 50!")   
-print(f"Your total score is {score}.")  
-print(f"Rolls made during the game: {rolls}.")
+
+# Ask if the player wants to see the history of rolls  
+show_history = input("Do you want to see the history of your rolls? (yes/no): ").strip().lower()  
+
+# Display the history if player asks for it  
+if show_history == 'yes':  
+    print("History of your rolls:")  
+    for index, roll in enumerate(rolls, start=1):  
+        print(f"Roll {index}: {roll}")  
+else:  
+    print("Thanks for playing!")  
